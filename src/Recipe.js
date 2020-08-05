@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import './Recipe.css';
 
 function Recipe(props) {
 
   const [recipe, setRecipe] = useState(props.recipe);  // We can now access a recipe by just typing "recipe" instead of "props.recipe"
-  const { picture, name, description } = recipe; // We can now access attributes by just typing "picture" instead of "recipe.picture"
+  const { id, picture, name, description } = recipe; // We can now access attributes by just typing "picture" instead of "recipe.picture"
 
   return (
 
@@ -16,6 +16,7 @@ function Recipe(props) {
         <CardBody>
           <CardTitle>{name}</CardTitle>
           <CardText>{description}</CardText>
+          <Button onClick={() => props.delete(id)}>Delete</Button>
         </CardBody>
       </Card>
 
