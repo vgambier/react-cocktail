@@ -15,13 +15,11 @@ function RecipeList() {
         setRecipeList(recipeList.filter(recipe => recipe.id != id))
     }
 
-    function handleSubmit(event) {
-        newRecipe.id = recipeList.length
+    function handleSubmit() {
+        newRecipe.id = recipeList.length; // Dirty workaround
         setAddMode(!addMode);
         recipeList.push(newRecipe);
     }
-
-
 
     return (
 
@@ -41,7 +39,7 @@ function RecipeList() {
                     <Input placeholder="Mojito" onChange={e => newRecipe.name = e.target.value} />
                     <Input placeholder="Sweet and sour cocktail" onChange={e => newRecipe.description = e.target.value} />
                     <Input placeholder="https://example.org/mojito.jpg" onChange={e => newRecipe.picture = e.target.value} />
-                    <Button onClick={(event) => handleSubmit(event)}>Confirm</Button>
+                    <Button onClick={(event) => handleSubmit()}>Confirm</Button>
                 </Card>
             }
         </div>
