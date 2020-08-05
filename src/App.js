@@ -6,12 +6,15 @@ import { MOCK } from './Mock';
 function App() {
   return (
 
-    MOCK.map(element =>
-      <div>
-        <Recipe recipe={element} />
-      </div>
-    )
-
+    <div>
+      {
+        MOCK.map(element =>
+          <div>
+            <Recipe recipe={element} />
+          </div>
+        )
+      }
+    </div>
   );
 }
 
