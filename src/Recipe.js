@@ -1,17 +1,16 @@
 import React from 'react';
 import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
-import { MOCK } from './Mock';
 
-function Recipe() {
+function Recipe(props) {
   return (
 
     <div className="Recipe">
 
       <Card style={{ width: '18rem' }}>
-        <CardImg variant="top" src={MOCK[0].picture} />
+        <CardImg variant="top" src={props.recipe.picture} />
         <CardBody>
-          <CardTitle>{MOCK[0].name}</CardTitle>
-          <CardText>{MOCK[0].description}</CardText>
+          <CardTitle>{props.recipe.name}</CardTitle>
+          <CardText>{props.recipe.description}</CardText>
         </CardBody>
       </Card>
 

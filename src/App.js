@@ -1,14 +1,17 @@
 import React from 'react';
 import './App.css';
 import Recipe from './Recipe';
+import { MOCK } from './Mock';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Recipe />
-      </header>
-    </div>
+
+    MOCK.map(element =>
+      <div>
+        <Recipe recipe={element} />
+      </div>
+    )
+
   );
 }
 
