@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
-import { MOCK } from './Mock';
+import React, { useState, useEffect } from 'react';
 import Recipe from './Recipe';
 import { Card, Input, Button } from 'reactstrap';
 import './RecipeList.css';
+import useAxios from 'axios-hooks';
+
+export const baseURL = "http://10.0.1.182:8080/api/v1";
 
 function RecipeList() {
 
-    const [recipeList, setRecipeList] = useState(MOCK);
+    const [{ data, loading, error }] = useAxios(`${baseURL}/recipes`); // Connecting to the server (back-end)
+    const [recipeList, setRecipeList] = useState(data); // Grabbing data from the dataset
     const [addMode, setAddMode] = useState(false);
+
+    useEffect(() => setRecipeList(data, [data]));
 
     const newRecipe = [];
 
@@ -24,7 +29,7 @@ function RecipeList() {
     return (
 
         <div className="RecipeList">
-            {recipeList.map(
+            {recipeList && recipeList.map( // We need to check that recipeList is not undefined because of asynchronicity
                 recipe =>
                     <Recipe key={recipe.id} recipe={recipe} delete={deleteRecipe} />
             )}
