@@ -32,7 +32,7 @@ function Recipe(props) {
           <Input defaultValue={name} onChange={e => setRecipe({ ...recipe, name: e.target.value })} />
           <Input defaultValue={description} onChange={e => setRecipe({ ...recipe, description: e.target.value })} />
           <Input defaultValue={picture} onChange={e => setRecipe({ ...recipe, picture: e.target.value })} />
-          <Button onClick={() => setEditMode(!editMode)}>Validate</Button>
+          <Button onClick={() => { setEditMode(!editMode); props.edit(recipe) }}>Validate</Button>
         </Card>
 
       }

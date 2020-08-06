@@ -12,7 +12,7 @@ function RecipeList() {
     const [recipeList, setRecipeList] = useState(data); // Grabbing data from the dataset
     const [addMode, setAddMode] = useState(false);
 
-    // HTML POST, DELETE,... methods
+    // HTML POST, DELETE, EDIT methods
 
     const [{ data: dataAdd }, executeAdd] = useAxios({
         url: `${baseURL}/recipes`,
@@ -23,7 +23,12 @@ function RecipeList() {
         method: "DELETE"
     }, { manual: true });
 
-    useEffect(() => setRecipeList(data), [data, dataAdd]);
+    const [{ data: dataEdit }, executeEdit] = useAxios({
+        url: `${baseURL}/recipes`,
+        method: "PUT"
+    }, { manual: true });
+
+    useEffect(() => setRecipeList(data), [data, dataAdd, dataEdit]);
 
     // Adding logic
     const newRecipe = {};
@@ -39,7 +44,12 @@ function RecipeList() {
 
         executeDelete({ url: `${baseURL}/recipes/${id}` });
         setRecipeList(recipeList.filter(recipe => recipe.id !== id));
+    }
 
+    // Editing logic
+    function editRecipe(updatedRecipe) {
+        executeEdit({ data: updatedRecipe });
+        recipeList.push(updatedRecipe);
     }
 
     return (
@@ -47,7 +57,7 @@ function RecipeList() {
         <div className="RecipeList">
             {recipeList && recipeList.map( // We need to check that recipeList is not undefined because of asynchronicity
                 recipe =>
-                    <Recipe key={recipe.id} recipe={recipe} delete={deleteRecipe} />
+                    <Recipe key={recipe.id} recipe={recipe} delete={deleteRecipe} edit={editRecipe} />
             )}
 
             {!addMode ?
