@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText, Button, Input } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle, CardText, Button, Input, Table } from 'reactstrap';
 import './Recipe.css';
 
 function Recipe(props) {
@@ -20,6 +20,7 @@ function Recipe(props) {
           <CardBody>
             <CardTitle>{name}</CardTitle>
             <CardText>{description}</CardText>
+
             <Button onClick={() => props.delete(id)}>Delete</Button>
             <Button onClick={() => setEditMode(!editMode)}>Edit</Button>
           </CardBody>

@@ -12,17 +12,25 @@ function RecipeList() {
     const [recipeList, setRecipeList] = useState(data); // Grabbing data from the dataset
     const [addMode, setAddMode] = useState(false);
 
-    useEffect(() => setRecipeList(data, [data]));
+    const [{ data: dataAdd }, executeAdd] = useAxios({
 
-    const newRecipe = [];
+        url: `${baseURL}/recipes`,
+        method: "POST"
+
+    }, { manual: true });
+
+    useEffect(() => setRecipeList(data, [data, dataAdd]));
+
+    const newRecipe = {};
 
     function deleteRecipe(id) {
-        setRecipeList(recipeList.filter(recipe => recipe.id != id))
+        setRecipeList(recipeList.filter(recipe => recipe.id != id));
     }
 
     function handleSubmit() {
-        newRecipe.id = recipeList.length; // Dirty workaround
         setAddMode(!addMode);
+        console.log(newRecipe);
+        executeAdd({ data: newRecipe });
         recipeList.push(newRecipe);
     }
 
@@ -36,7 +44,7 @@ function RecipeList() {
 
             {!addMode ?
 
-                <Button onClick={() => setAddMode(!addMode)}>Edit</Button>
+                <Button onClick={() => setAddMode(!addMode)}>Add</Button>
 
                 :
 
