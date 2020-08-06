@@ -8,7 +8,7 @@ export const baseURL = "http://10.0.1.182:8080/api/v1";
 
 function RecipeList() {
 
-    const [{ data, loading, error }, executeGet] = useAxios(`${baseURL}/recipes`); // Connecting to the server (back-end)
+    const [{ data, loading, error }] = useAxios(`${baseURL}/recipes`); // Connecting to the server (back-end)
     const [recipeList, setRecipeList] = useState(data); // Grabbing data from the dataset
     const [addMode, setAddMode] = useState(false);
 
@@ -35,13 +35,13 @@ function RecipeList() {
 
     function handleSubmit() {
         setAddMode(!addMode);
-        executeAdd({ data: newRecipe });
-        recipeList.push(newRecipe);
+        executeAdd({ data: newRecipe }).then(
+            response => { recipeList.push({ ...newRecipe, id: response.data }) });
+        setRecipeList(recipeList.concat([newRecipe])); // Allows temporary display of recipe upon adding while waiting for asynchronous back-end updating
     }
 
     // Deleting logic
     function deleteRecipe(id) {
-
         executeDelete({ url: `${baseURL}/recipes/${id}` });
         setRecipeList(recipeList.filter(recipe => recipe.id !== id));
     }
