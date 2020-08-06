@@ -8,30 +8,38 @@ export const baseURL = "http://10.0.1.182:8080/api/v1";
 
 function RecipeList() {
 
-    const [{ data, loading, error }] = useAxios(`${baseURL}/recipes`); // Connecting to the server (back-end)
+    const [{ data, loading, error }, executeGet] = useAxios(`${baseURL}/recipes`); // Connecting to the server (back-end)
     const [recipeList, setRecipeList] = useState(data); // Grabbing data from the dataset
     const [addMode, setAddMode] = useState(false);
 
-    const [{ data: dataAdd }, executeAdd] = useAxios({
+    // HTML POST, DELETE,... methods
 
+    const [{ data: dataAdd }, executeAdd] = useAxios({
         url: `${baseURL}/recipes`,
         method: "POST"
-
     }, { manual: true });
 
-    useEffect(() => setRecipeList(data, [data, dataAdd]));
+    const [{ }, executeDelete] = useAxios({
+        method: "DELETE"
+    }, { manual: true });
 
+    useEffect(() => setRecipeList(data), [data, dataAdd]);
+
+    // Adding logic
     const newRecipe = {};
-
-    function deleteRecipe(id) {
-        setRecipeList(recipeList.filter(recipe => recipe.id != id));
-    }
 
     function handleSubmit() {
         setAddMode(!addMode);
-        console.log(newRecipe);
         executeAdd({ data: newRecipe });
         recipeList.push(newRecipe);
+    }
+
+    // Deleting logic
+    function deleteRecipe(id) {
+
+        executeDelete({ url: `${baseURL}/recipes/${id}` });
+        setRecipeList(recipeList.filter(recipe => recipe.id !== id));
+
     }
 
     return (
